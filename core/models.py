@@ -58,6 +58,11 @@ class RestaurantImage(models.Model):
     def __str__(self):
         return self.post.title
 
+
+class Favorites(models.Model):
+    user = models.CharField(max_length=255)
+    restaurants = models.ManyToManyField(Restaurant, default=None)
+
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
     if created:
         userprofile = UserProfile.objects.create(user=instance)

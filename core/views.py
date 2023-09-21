@@ -1,28 +1,7 @@
-import csv
 import json
-import os
-import hashlib
-import uuid
-from pathlib import Path
-from django.core import serializers
-from django.db.models import Q
-import random
-import string
-import subprocess
 import stripe
-import requests
 from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.shortcuts import redirect
-from django.shortcuts import render, get_object_or_404
-from django.utils import timezone
-from django.views.generic import ListView, DetailView, View
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.models import User
 from .models import Restaurant, Certificate
 
 
@@ -146,6 +125,7 @@ def get_certificates_by_id(request, id):
         }
         data.append(item)
     return JsonResponse({"certificates": data})
+
 
 
 
