@@ -63,6 +63,30 @@ class Favorites(models.Model):
     user = models.CharField(max_length=255)
     restaurants = models.ManyToManyField(Restaurant, default=None)
 
+
+class Otklik(models.Model):
+    user = models.CharField(max_length=255)
+    price = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+
+
+class Order(models.Model):
+    description = models.CharField(max_length=255)
+    company = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    experience = models.CharField(max_length=255)
+    skills = models.CharField(max_length=255)
+    price = models.CharField(max_length=255)
+    user_id = models.CharField(max_length=255)
+    category_id = models.CharField(max_length=255)
+    subcategory = models.CharField(max_length=255)
+    location=models.CharField(max_length=255, default='Almaty')
+    image = models.ImageField()
+    file = models.FileField(null=True)
+    otkliki = models.ManyToManyField(Otklik, default=None, null=True)
+
+
+
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
     if created:
         userprofile = UserProfile.objects.create(user=instance)

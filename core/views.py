@@ -2,7 +2,7 @@ import json
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
-from .models import Restaurant, Certificate
+from .models import Restaurant, Certificate, Otklik, Order
 
 
 def cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True):
@@ -96,11 +96,9 @@ def get_new_restaurants(request):
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def create_certificate(request):
     try:
-        # Get the raw request body data as bytes
         raw_data = request.body
         json_string = raw_data.decode('utf-8')
         data = json.loads(json_string)
-        selected_price = data.get('price')
         print(data.get('price'))
         print(data.get('user_id'))
         certificate = Certificate(
@@ -127,7 +125,121 @@ def get_certificates_by_id(request, id):
     return JsonResponse({"certificates": data})
 
 
+@cors_headers(allow_origin="*", allow_methods="GET", allow_headers="*", allow_credentials=True)
+def get_jobs_by_id(request, id):
+    data = []
+    for i in Order.objects.filter(user_id=id):
+        tags = []
+        for tag in i.otkliki.all():
+            tags += {
+                'user_id': tag.user,
+                'price': tag.price,
+                'description': tag.description,
+            }
+        item = {
+            'id': i.pk,
+            'price': i.price,
+            'user_id': i.user_id,
+            'content_work': i.title,
+            'description': i.description,
+            'company': i.company,
+            'location': i.location,
+            'category_id': i.category_id,
+            'subcategory_id': i.subcategory,
+            'experience': i.experience,
+            'skills': i.skills,
+            'otkliki': tags,
+            'image': i.image.url
+        }
+        data.append(item)
+    return JsonResponse({"data": data})
 
+
+@cors_headers(allow_origin="*", allow_methods="GET", allow_headers="*", allow_credentials=True)
+def get_job_by_id(request, id):
+    i = Order.objects.filter(id=id)[0]
+    tags = []
+    for tag in i.otkliki.all():
+        tags.append({
+            'user_id': tag.user,
+            'price': tag.price,
+            'description': tag.description,
+        })
+    item = {
+        'id': i.pk,
+        'price': i.price,
+        'user_id': i.user_id,
+        'content_work': i.title,
+        'description': i.description,
+        'company': i.company,
+        'location': i.location,
+        'category_id': i.category_id,
+        'subcategory_id': i.subcategory,
+        'experience': i.experience,
+        'skills': i.skills,
+        'otkliki': tags,
+        'image': i.image.url
+    }
+    return JsonResponse({"data": item})
+
+
+@cors_headers(allow_origin="*", allow_methods="GET", allow_headers="*", allow_credentials=True)
+def get_jobs(request):
+    data = []
+    for i in Order.objects.all():
+        tags = []
+        for tag in i.otkliki.all():
+            tags += {
+                'user_id': tag.user,
+                'price': tag.price,
+                'description': tag.description,
+            }
+        item = {
+            'id': i.pk,
+            'price': i.price,
+            'user_id': i.user_id,
+            'content_work': i.title,
+            'description': i.description,
+            'company': i.company,
+            'location': i.location,
+            'category_id': i.category_id,
+            'subcategory_id': i.subcategory,
+            'experience': i.experience,
+            'skills': i.skills,
+            'otkliki': tags,
+            'image': i.image.url
+        }
+        data.append(item)
+    return JsonResponse({"data": data})
+
+@cors_headers(allow_origin="*", allow_methods="POST", allow_headers="*", allow_credentials=True)
+def otklik(request, id):
+    raw_data = request.body
+    json_string = raw_data.decode('utf-8')
+    data = json.loads(json_string)
+    otklik = Otklik(
+        user=data.get('userId'),
+        price=data.get('price'),
+        description=data.get('description'),
+    )
+    otklik.save()
+    job = Order.objects.filter(pk=id)[0]
+    job.otklik.add(otklik)
+    job.save()
+    return JsonResponse({"certificates": 'true'})
+
+
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def add_otklick(request, jobId, userId, description, price):
+    job = Order.objects.filter(pk=jobId)[0]
+    otklik = Otklik(
+        price=price,
+        description=description,
+        user=userId
+    )
+    otklik.save()
+    job.otkliki.add(otklik)
+    return JsonResponse({'response': "200 OK"})
 
 
 
