@@ -178,8 +178,9 @@ def get_job_by_id(request, id):
         'experience': i.experience,
         'skills': i.skills,
         'otkliki': tags,
-        'image': i.image.url
     }
+    if i.image:
+        item['image'] = i.image.url;
     return JsonResponse({"data": item})
 
 
