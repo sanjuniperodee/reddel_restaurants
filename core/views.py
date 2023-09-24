@@ -207,8 +207,9 @@ def get_jobs(request):
             'experience': i.experience,
             'skills': i.skills,
             'otkliki': tags,
-            'image': i.image.url
         }
+        if i.image:
+            item['image'] = i.image.url;
         data.append(item)
     return JsonResponse({"data": data})
 
