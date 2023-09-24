@@ -241,6 +241,30 @@ def add_otklick(request, jobId, userId, description, price):
     job.otkliki.add(otklik)
     return JsonResponse({'response': "200 OK"})
 
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def save_job(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        print(data)
+        print(data.get('price'))
+        order = Order(
+            description=data.get('description'),
+            company=data.get('company'),
+            title=data.get('content_work'),
+            experience=data.get('experience'),
+            skills=data.get('experience'),
+            price=data.get('price'),
+            user_id=data.get('user_id'),
+            category_id=data.get('category_id'),
+            subcategory=data.get('subcategory_id'),
+            location=data.get('location'),
+        )
+        order.save()
+
+    except json.JSONDecodeError as e:
+        print("Error decoding JSON:", str(e))
+    return JsonResponse({'error': 'Invalid JSON data'}, status=200)
+
 
 
 

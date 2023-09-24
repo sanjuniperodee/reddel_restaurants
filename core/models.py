@@ -81,7 +81,7 @@ class Order(models.Model):
     category_id = models.CharField(max_length=255)
     subcategory = models.CharField(max_length=255)
     location=models.CharField(max_length=255, default='Almaty')
-    image = models.ImageField()
+    image = models.ImageField(null=True)
     file = models.FileField(null=True)
     otkliki = models.ManyToManyField(Otklik, default=None, null=True)
 
