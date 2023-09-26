@@ -120,6 +120,7 @@ def get_certificates_by_id(request, id):
             'sum': i.sum,
             'user_id': i.user_id,
             'status': i.status,
+            'encode': i.encode
         }
         data.append(item)
     return JsonResponse({"certificates": data})
