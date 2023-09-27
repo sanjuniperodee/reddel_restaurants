@@ -305,7 +305,9 @@ def save_job(request):
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def handle(request):
-    print(request)
+    data = json.loads(request.body.decode('utf-8'))
+    print(data)
+    return JsonResponse({'message': 'OK'}, status=200)
 
 
 
