@@ -3,6 +3,7 @@ import stripe
 from django.conf import settings
 from django.http import JsonResponse
 from .models import Restaurant, Certificate, Otklik, Order, Favorites
+import webbrowser
 
 
 def cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True):
@@ -307,6 +308,7 @@ def save_job(request):
 def handle(request):
     data = json.loads(request.body.decode('utf-8'))
     print(data)
+    webbrowser.open('https://youtube.com')
     return JsonResponse({'message': 'OK'}, status=200)
 
 
