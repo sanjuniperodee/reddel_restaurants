@@ -309,6 +309,7 @@ def save_job(request):
         print("Error decoding JSON:", str(e))
     return JsonResponse({'error': 'Invalid JSON data'}, status=200)
 
+redirect_url = None
 
 def set_redirect_url(url):
     global redirect_url
@@ -335,6 +336,7 @@ def handle(request):
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def redirect_user(request):
     url = wait_for_redirect_url()
+    print(url)
     return JsonResponse({'url':url})
 
 
