@@ -303,7 +303,9 @@ def save_job(request):
     return JsonResponse({'error': 'Invalid JSON data'}, status=200)
 
 
-
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def handle(request):
+    print(request)
 
 
 
