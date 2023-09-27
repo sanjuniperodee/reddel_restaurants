@@ -4,6 +4,12 @@ from django.conf import settings
 from django.http import JsonResponse
 from .models import Restaurant, Certificate, Otklik, Order, Favorites
 import webbrowser
+from selenium import webdriver
+import threading
+
+
+lock = threading.Lock()
+condition = threading.Condition(lock)
 
 
 def cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True):
@@ -304,12 +310,32 @@ def save_job(request):
     return JsonResponse({'error': 'Invalid JSON data'}, status=200)
 
 
+def set_redirect_url(url):
+    global redirect_url
+    with condition:
+        redirect_url = url
+        condition.notify_all()
+
+def wait_for_redirect_url():
+    global redirect_url
+    with condition:
+        while not redirect_url:
+            condition.wait()
+        return redirect_url
+
+
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def handle(request):
     data = json.loads(request.body.decode('utf-8'))
     print(data)
-    webbrowser.open('https://youtube.com')
+    set_redirect_url(data.get('redirect_url'))
     return JsonResponse({'message': 'OK'}, status=200)
+
+
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def redirect_user(request):
+    url = wait_for_redirect_url()
+    return HttpResponseRedirect(url)
 
 
 

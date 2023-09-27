@@ -17,5 +17,6 @@ urlpatterns = [
     path('save_job', save_job, name='save_job'),
     path('add_to_favorite/<userId>/<restaurantId>', add_to_favorite, name='add_to_favorite'),
     path('get_favourites/<userId>', get_favourites, name='get_favourites'),
-    path('handle', handle, name='handle')
+    path('handle', handle, name='handle'),
+    path('redirect_user', redirect_user, name='redirect_user')
 ]
