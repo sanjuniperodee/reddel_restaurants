@@ -338,7 +338,7 @@ def handle(request):
             print(data.get('user_id'))
             certificate = Certificate(
                 sum=data.get('approved_params').get('principal'),
-                user_id=data.get('user_id')
+                user_id=28
             )
             certificate.save()
         except:
