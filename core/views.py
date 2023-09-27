@@ -335,7 +335,7 @@ def handle(request):
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def redirect_user(request):
     url = wait_for_redirect_url()
-    return HttpResponseRedirect(url)
+    return JsonResponse({'url':url})
 
 
 
