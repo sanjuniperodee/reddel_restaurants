@@ -61,7 +61,7 @@ class RestaurantImage(models.Model):
 
 class Favorites(models.Model):
     user = models.CharField(max_length=255)
-    restaurants = models.ManyToManyField(Restaurant, default=None)
+    restaurants = models.ManyToManyField(Restaurant, default=None, null=True)
 
 
 class Otklik(models.Model):

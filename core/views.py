@@ -2,7 +2,7 @@ import json
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
-from .models import Restaurant, Certificate, Otklik, Order
+from .models import Restaurant, Certificate, Otklik, Order, Favorites
 
 
 def cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True):
@@ -91,6 +91,39 @@ def get_new_restaurants(request):
         data.append(item)
     return JsonResponse({
         "restaurants": data})
+
+
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def add_to_favorite(request, userId, restaurantId):
+    usersfav = Favorites.objects.get_or_create(user=userId)[0]
+    usersfav.restaurants.add(Restaurant.objects.filter(pk=restaurantId)[0])
+    usersfav.save()
+    return JsonResponse({
+        "status": "OK"})
+
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def get_favourites(request, userId):
+    data = []
+    for i in Favorites.objects.filter(user=userId)[0].restaurants.all():
+        tags = []
+        for tag in i.tags.all():
+            tags += tag.title
+        item = {
+            'id': i.pk,
+            'title': i.title,
+            'description': i.description,
+            'tags': [tag.title for tag in i.tags.all()],
+            'image': i.image.url,
+            'slug': i.slug,
+            'location': i.location,
+            'kitchen': i.kitchen,
+            'average': i.average,
+            'phone': i.phone_number
+        }
+        data.append(item)
+    return JsonResponse({
+        "restaurants": data})
+
 
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
