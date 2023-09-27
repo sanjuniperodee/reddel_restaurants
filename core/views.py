@@ -329,13 +329,29 @@ def wait_for_redirect_url():
 def handle(request):
     data = json.loads(request.body.decode('utf-8'))
     print(data)
+    if data.get('status'):
+        try:
+            raw_data = request.body
+            json_string = raw_data.decode('utf-8')
+            data = json.loads(json_string)
+            print(data.get('approved_params').get('principal'))
+            print(data.get('user_id'))
+            certificate = Certificate(
+                sum=data.get('approved_params').get('principal'),
+                user_id=data.get('user_id')
+            )
+            certificate.save()
+        except:
+            print('error')
     set_redirect_url(data.get('redirect_url'))
     return JsonResponse({'message': 'OK'}, status=200)
 
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def redirect_user(request):
+    global redirect_url
     url = wait_for_redirect_url()
+    redirect_url = None
     print(url)
     return JsonResponse({'url':url})
 
