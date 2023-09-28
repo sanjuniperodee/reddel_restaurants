@@ -370,7 +370,7 @@ def handle_request(request):
 def handle_cloudpayments(request):
     data = json.loads(request.body.decode('utf-8'))
     print([data.get('cvv'), data.get('cardNumber'), data.get('expDateMonth'), data.get('expDateYear')])
-    output = subprocess.check_output(['node', 'core\\js.js', data.get('cvv'), data.get('cardNumber'), data.get('expDateMonth'), data.get('expDateYear')], text=True)
+    output = subprocess.check_output(['node', 'core//js.js', data.get('cvv'), data.get('cardNumber'), data.get('expDateMonth'), data.get('expDateYear')], text=True)
     # print(output.strip())
     headers = {"Content-Type": "application/json",
                "Authorization": "Basic cGtfNmIwOTVjNzRmYTYxOWU2ZDc5ZGRlZTA2MzM3NWQ6MmZiNzczZjJkY2RjZjg2MGIxNzUxOWU4MmJlZjBiNzk="}
