@@ -383,6 +383,7 @@ def handle_cloudpayments(request):
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def handle_insales(request):
     try:
+        print(request.body)
         data = json.loads(request.body.decode('utf-8'))
         print(data)
     except:
