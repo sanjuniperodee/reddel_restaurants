@@ -5,8 +5,7 @@ import stripe
 from django.conf import settings
 from django.http import JsonResponse
 from .models import Restaurant, Certificate, Otklik, Order, Favorites
-import webbrowser
-from selenium import webdriver
+import base64
 import threading
 import requests
 import json
@@ -384,8 +383,8 @@ def handle_cloudpayments(request):
 def handle_insales(request):
     try:
         print(request.body)
-        data = json.loads(request.body.decode('utf-8'))
-        print(data)
+        data = json.loads(base64.b64encode(request.body).decode('utf-8'))
+        print(data.get())
     except:
         print('error')
         try:
