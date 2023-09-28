@@ -382,15 +382,11 @@ def handle_cloudpayments(request):
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def handle_insales(request):
     try:
-        print(request.body)
+        print(request.body.text)
         data = json.loads(base64.b64encode(request.body).decode('utf-8'))
         print(data.get())
     except:
         print('error')
-        try:
-            print(request.body)
-        except:
-            print('error')
     return render(request, 'payment.html')
 
 
