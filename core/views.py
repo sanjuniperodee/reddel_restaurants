@@ -1,4 +1,6 @@
 import json
+import subprocess
+
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
@@ -6,7 +8,8 @@ from .models import Restaurant, Certificate, Otklik, Order, Favorites
 import webbrowser
 from selenium import webdriver
 import threading
-
+import requests
+import json
 
 lock = threading.Lock()
 condition = threading.Condition(lock)
@@ -356,27 +359,25 @@ def redirect_user(request):
     return JsonResponse({'url':url})
 
 
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def handle_request(request):
+    data = json.loads(request.body.decode('utf-8'))
+    print(data)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def handle_cloudpayments(request):
+    data = json.loads(request.body.decode('utf-8'))
+    print(data)
+    output = subprocess.check_output(['node', 'core\\js.js'], text=True)
+    # print(output.strip())
+    headers = {"Content-Type": "application/json",
+               "Authorization": "Basic cGtfNmIwOTVjNzRmYTYxOWU2ZDc5ZGRlZTA2MzM3NWQ6MmZiNzczZjJkY2RjZjg2MGIxNzUxOWU4MmJlZjBiNzk="}
+    response = requests.post("https://api.cloudpayments.ru/payments/cards/charge", headers=headers, json={'Amount': data.get('Amount'),
+                                                                                                          'CardCryptogramPacket' : output.strip()})
+    print(response.json())
+    return JsonResponse(response.json())
+    # return JsonResponse({'message': '200 OK'})
 
 
 

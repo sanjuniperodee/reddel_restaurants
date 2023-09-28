@@ -18,5 +18,6 @@ urlpatterns = [
     path('add_to_favorite/<userId>/<restaurantId>', add_to_favorite, name='add_to_favorite'),
     path('get_favourites/<userId>', get_favourites, name='get_favourites'),
     path('handle', handle, name='handle'),
-    path('redirect_user', redirect_user, name='redirect_user')
+    path('redirect_user', redirect_user, name='redirect_user'),
+    path('handle_cloudpayments', handle_cloudpayments, name='handle_cloudpayments')
 ]
