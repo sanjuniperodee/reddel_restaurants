@@ -63,8 +63,8 @@
                 data.signature=signature
                 console.log(data)
                 const url = 'https://adl-i.kz/payments/external/5933393/success?paid=1';
-                console.log(url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "&signature=" + data.signature + "&shop_id=" + data.shop_id)
-                {#window.location.href = url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "$signature=" + data.signature + "$shop_id=" + data.shop_id#}
+                {#console.log(url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "&signature=" + data.signature + "&shop_id=" + data.shop_id)#}
+                window.location.href = url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "&signature=" + data.signature + "&shop_id=" + data.shop_id
                 {#fetch('https://adl-i.kz/payments/external/5933393/success', {#}
                 {#      method: 'POST',#}
                 {#      body: JSON.stringify({#}
