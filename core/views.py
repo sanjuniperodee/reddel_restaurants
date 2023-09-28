@@ -368,8 +368,8 @@ def handle_request(request):
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def handle_cloudpayments(request):
     data = json.loads(request.body.decode('utf-8'))
-    print(data)
-    output = subprocess.check_output(['node', 'core\\js.js'], text=True)
+    print([data.get('cvv'), data.get('cardNumber'), data.get('expDateMonth'), data.get('expDateYear')])
+    output = subprocess.check_output(['node', 'core\\js.js', data.get('cvv'), data.get('cardNumber'), data.get('expDateMonth'), data.get('expDateYear')], text=True)
     # print(output.strip())
     headers = {"Content-Type": "application/json",
                "Authorization": "Basic cGtfNmIwOTVjNzRmYTYxOWU2ZDc5ZGRlZTA2MzM3NWQ6MmZiNzczZjJkY2RjZjg2MGIxNzUxOWU4MmJlZjBiNzk="}

@@ -1,6 +1,13 @@
 const axios = require('axios');
 const { JSDOM } = require('jsdom');
 
+const cartArgs = {
+    cvv: process.argv[2],             // Default CVV value
+    cardNumber: process.argv[3],  // Default card number
+    expDateMonth: process.argv[4],     // Default expiration month
+    expDateYear: process.argv[5],      // Default expiration year
+};
+
 const scriptUrl = 'https://checkout.cloudpayments.ru/checkout.js';
 
 // Create a virtual DOM environment
@@ -17,22 +24,13 @@ axios.get(scriptUrl)
     .then(async (response) => {
         const scriptContent = response.data;
 
-        // Execute the script in the virtual DOM environment
         simulatedWindow.eval(scriptContent);
-
-        // Your code to create the payment cryptogram can go here
-        const fieldValues = {
-            cvv: '111',
-            cardNumber: '4000 0000 0000',
-            expDateMonth: '08',
-            expDateYear: '20',
-        };
 
         const checkout = new simulatedWindow.cp.Checkout({
             publicId: 'pk_6b095c74fa619e6d79ddee063375d',
         });
         try {
-            const cryptogram = await checkout.createPaymentCryptogram(fieldValues);
+            const cryptogram = await checkout.createPaymentCryptogram(cartArgs);
             console.log(cryptogram);
         } catch (error) {
             console.log('error')
