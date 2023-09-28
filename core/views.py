@@ -1,6 +1,6 @@
 import json
 import subprocess
-
+from django.shortcuts import render, get_object_or_404
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
@@ -378,6 +378,16 @@ def handle_cloudpayments(request):
     print(response.json())
     return JsonResponse(response.json())
     # return JsonResponse({'message': '200 OK'})
+
+
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def handle_insales(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        print(data)
+    except:
+        print('error')
+    return render(request, 'payment.html')
 
 
 

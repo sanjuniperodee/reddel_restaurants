@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { JSDOM } = require('jsdom');
-
+const sad;
 const cartArgs = {
     cvv: process.argv[2],             // Default CVV value
     cardNumber: process.argv[3],  // Default card number
