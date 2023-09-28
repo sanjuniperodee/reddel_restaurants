@@ -388,6 +388,10 @@ def handle_insales(request):
         print(data)
     except:
         print('error')
+        try:
+            print(request.body)
+        except:
+            print('error')
     return render(request, 'payment.html')
 
 
