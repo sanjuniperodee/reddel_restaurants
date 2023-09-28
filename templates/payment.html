@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
 <script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
 <script>
     window.onload = this.pay = function () {
  var widget = new cp.CloudPayments();
-    widget.pay('auth', // или 'charge'
+    widget.pay('charge', // или 'charge'
         { //options
-            publicId: 'test_api_00000000000000000000002', //id из личного кабинета
+            publicId: 'pk_c786b702701d63eecaace715da930', //id из личного кабинета
             description: 'Оплата товаров в example.com', //назначение
-            amount: 100, //сумма
-            currency: 'RUB', //валюта
+            amount: parseInt({{ amount }}), //сумма
+            currency: 'KZT', //валюта
             accountId: 'user@example.com', //идентификатор плательщика (необязательно)
             invoiceId: '1234567', //номер заказа  (необязательно)
             email: 'user@example.com', //email плательщика (необязательно)
@@ -44,11 +48,40 @@
             }
         },
         {
-            onSuccess: function (options) { // success
-                //действие при успешной оплате
-            },
-            onFail: function (reason, options) { // fail
-                //действие при неуспешной оплате
+            onSuccess: function (options) {
+                console.log("SUCCESSSSSSSS!!!!!!!!!!!!!!!!1")
+                const data = {
+                  paid: "1",
+                  amount: '{{ amount }}',
+                  key: "{{ key }}",
+                  transaction_id: "{{ transaction_id }}",
+                  shop_id: "{{ shop_id }}",
+                  signature : "signature"
+                };
+                const md5Hash = CryptoJS.MD5(`${data.shop_id};${data.amount};${data.transaction_id};${data.key};${data.paid};a9aada9a6aff1b8558672aeb2daa0390`);
+                const signature = md5Hash.toString(CryptoJS.enc.Hex);
+                data.signature=signature
+                console.log(data)
+                const url = 'https://adl-i.kz/payments/external/5933393/success?paid=1';
+                console.log(url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "&signature=" + data.signature + "&shop_id=" + data.shop_id)
+                {#window.location.href = url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "$signature=" + data.signature + "$shop_id=" + data.shop_id#}
+                {#fetch('https://adl-i.kz/payments/external/5933393/success', {#}
+                {#      method: 'POST',#}
+                {#      body: JSON.stringify({#}
+                {#          data#}
+                {#      })#}
+                {#    })#}
+                {#    .then(response => response.json())#}
+                {#    .then(result => {#}
+                {#      console.log(result);#}
+                {#    })#}
+                {#    .catch(error => {#}
+                {#      console.error('Ошибка:', error);#}
+                {#    });#}
+                    console.log("SUCCESSSSSSSS!!!!!!!!!!!!!!!!1")
+                },
+            onFail: function (reason, options) {
+                console.log("FAILFAILFAILFAILFALIFALIF")
             },
             onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
                 //например вызов вашей аналитики
@@ -56,31 +89,6 @@
         }
     )
 };
-</script>
-<script>
-    function pay(){
-        console.log('pay')
-        const fieldValues = {
-            cvv: document.getElementById('cvv').value,
-            cardNumber: document.getElementById('card_num').value,
-            expDateMonth: document.getElementById('exp').value.split('/')[0],
-            expDateYear: document.getElementById('exp').value.split('/')[1],
-        }
-        console.log(fieldValues)
-        const checkout = new cp.Checkout({
-            publicId: 'test_api_000000000000000002',
-        });
-        checkout.createPaymentCryptogram(fieldValues)
-            .then((cryptogram) => {
-                console.log(cryptogram);
-            }).catch((errors) => {
-                console.log(errors)
-            });
-    }
-    const payButton = document.getElementById('123');
-
-payButton.addEventListener('click', pay);
-console.log(payButton)
 </script>
 </body>
 

@@ -1,5 +1,7 @@
 import json
 import subprocess
+import urllib
+
 from django.shortcuts import render, get_object_or_404
 import stripe
 from django.conf import settings
@@ -381,13 +383,22 @@ def handle_cloudpayments(request):
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def handle_insales(request):
-    try:
-        print(request.body.text)
-        data = json.loads(base64.b64encode(request.body).decode('utf-8'))
-        print(data.get())
-    except:
-        print('error')
-    return render(request, 'payment.html')
+    text = request.body.decode('utf-8')
+    print(text)
+
+    # Split the text by "&" to get key-value pairs
+    key_value_pairs = text.split('&')
+
+    # Initialize a dictionary to store the decoded key-value pairs
+    decoded_data = {}
+
+    # Iterate through key-value pairs and decode them
+    for pair in key_value_pairs:
+        key, value = pair.split('=')
+        decoded_value = urllib.parse.unquote(value)
+        decoded_data[key] = decoded_value
+    print(decoded_data)
+    return render(request, 'payment.html', decoded_data)
 
 
 
