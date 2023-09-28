@@ -3,104 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
-
-body{
-background: linear-gradient(to right, rgba(235,224,232,1) 52%,rgba(254,191,1,1) 53%,rgba(254,191,1,1) 100%);
-font-family: 'Roboto', sans-serif;
-}
-
-.card{
-	border: none;
-	max-width: 450px;
-	border-radius: 15px;
-	margin: 150px 0 150px;
-	padding: 35px;
-	padding-bottom: 20px!important;
-}
-.heading{
-	color: #C1C1C1;
-	font-size: 14px;
-	font-weight: 500;
-}
-img{
-	transform: translate(160px,-10px);
-}
-img:hover{
-    cursor: pointer;
-}
-.text-warning{
-	font-size: 12px;
-	font-weight: 500;
-	color: #edb537!important;
-}
-#cno{
-	transform: translateY(-10px);
-}
-input{
-	border-bottom: 1.5px solid #E8E5D2!important;
-	font-weight: bold;
-	border-radius: 0;
-	border: 0;
-
-}
-.form-group input:focus{
-	border: 0;
-	outline: 0;
-}
-.col-sm-5{
-	padding-left: 90px;
-}
-.btn{
-	background: #F3A002!important;
-	border: none;
-	border-radius: 30px;
-}
-.btn:focus{
-    box-shadow: none;
-}
-    </style>
+    <script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
 </head>
 <body>
-<div class="container-fluid">
-	<div class="row d-flex justify-content-center">
-		<div class="col-sm-12">
-			<div class="card mx-auto">
-				<p class="heading">PAYMENT DETAILS</p>
-					<form class="card-details ">
-						<div class="form-group mb-0">
-								<p class="text-warning mb-0">Card Number</p>
-                          		<input type="text" id="card_num" placeholder="1234 5678 9012 3457" size="17" id="cno" minlength="19" maxlength="19">
-								<img src="https://img.icons8.com/color/48/000000/visa.png" width="64px" height="60px" />
-                        </div>
-
-                        <div class="form-group">
-                            <p class="text-warning mb-0">Cardholder's Name</p> <input type="text" name="name" placeholder="Name" size="17">
-                        </div>
-                        <div class="form-group pt-2">
-                        	<div class="row d-flex">
-                        		<div class="col-sm-4">
-                        			<p class="text-warning mb-0">Expiration</p>
-                        			<input type="text" id="exp" placeholder="MM/YY" size="7" id="exp" minlength="7" maxlength="7">
-                        		</div>
-                        		<div class="col-sm-3">
-                        			<p class="text-warning mb-0">Cvv</p>
-                        			<input type="password" id="cvv" placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3">
-                        		</div>
-                        		<div class="col-sm-5 pt-0">
-                        			<button type="button" class="btn btn-primary" onclick="pay()"><i class="fas fa-arrow-right px-3 py-2"></i></button>
-                        		</div>
-                                <button type="button" id="123">ОПЛАТИТЬ</button>
-                        	</div>
-                        </div>
-					</form>
-			</div>
-		</div>
-	</div>
-</div>
-<script src="https://checkout.cloudpayments.ru/checkout.js">
+<script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
+<script>
+    window.onload = this.pay = function () {
+ var widget = new cp.CloudPayments();
+    widget.pay('auth', // или 'charge'
+        { //options
+            publicId: 'test_api_00000000000000000000002', //id из личного кабинета
+            description: 'Оплата товаров в example.com', //назначение
+            amount: 100, //сумма
+            currency: 'RUB', //валюта
+            accountId: 'user@example.com', //идентификатор плательщика (необязательно)
+            invoiceId: '1234567', //номер заказа  (необязательно)
+            email: 'user@example.com', //email плательщика (необязательно)
+            skin: "mini", //дизайн виджета (необязательно)
+            autoClose: 3, //время в секундах до авто-закрытия виджета (необязательный)
+            data: {
+                myProp: 'myProp value'
+            },
+            configuration: {
+                common: {
+                    successRedirectUrl: "https://{ваш сайт}/success", // адреса для перенаправления
+                    failRedirectUrl: "https://{ваш сайт}/fail"        // при оплате по Tinkoff Pay
+                }
+            },
+            payer: {
+                firstName: 'Тест',
+                lastName: 'Тестов',
+                middleName: 'Тестович',
+                birth: '1955-02-24',
+                address: 'тестовый проезд дом тест',
+                street: 'Lenina',
+                city: 'MO',
+                country: 'RU',
+                phone: '123',
+                postcode: '345'
+            }
+        },
+        {
+            onSuccess: function (options) { // success
+                //действие при успешной оплате
+            },
+            onFail: function (reason, options) { // fail
+                //действие при неуспешной оплате
+            },
+            onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
+                //например вызов вашей аналитики
+            }
+        }
+    )
+};
 </script>
 <script>
     function pay(){
