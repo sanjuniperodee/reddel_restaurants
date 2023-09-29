@@ -7,7 +7,6 @@ import stripe
 from django.conf import settings
 from django.http import JsonResponse
 from .models import Restaurant, Certificate, Otklik, Order, Favorites
-import base64
 import threading
 import requests
 import json
@@ -359,9 +358,11 @@ def handle(request):
 def redirect_user(request, userId):
     global redirect_url, user_ids
     print(userId)
-    url = wait_for_redirect_url()
-    set_redirect_url(None)
-    # user_ids[url] = userId
+    try:
+        url = wait_for_redirect_url()
+        set_redirect_url(None)
+    except:
+        print("NOT YET")
     return JsonResponse({'url':url})
 
 
