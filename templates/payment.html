@@ -12,7 +12,8 @@
 
 <script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
 <script>
-    close = document.getElementsByClassName('close')[0].remove()
+    console.log(document.getElementsByClassName('close'))
+    {#close = document.getElementsByClassName('close')[0].remove()#}
     window.onload = this.pay = function () {
  var widget = new cp.CloudPayments();
     widget.pay('charge', // или 'charge'
