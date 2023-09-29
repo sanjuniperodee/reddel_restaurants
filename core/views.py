@@ -314,7 +314,7 @@ def save_job(request):
 
 
 redirect_url = None
-user_ids = {}
+user_id = None
 
 
 def set_redirect_url(url):
@@ -334,10 +334,12 @@ def wait_for_redirect_url():
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def handle(request):
+    global user_id
     data = json.loads(request.body.decode('utf-8'))
     print(data)
     if data.get('status'):
         try:
+            print()
             raw_data = request.body
             json_string = raw_data.decode('utf-8')
             data = json.loads(json_string)
@@ -345,7 +347,7 @@ def handle(request):
             print(data.get('user_id'))
             certificate = Certificate(
                 sum=data.get('approved_params').get('principal'),
-                user_id=28
+                user_id=user_id
             )
             certificate.save()
         except:
@@ -356,13 +358,12 @@ def handle(request):
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def redirect_user(request, userId):
-    global redirect_url, user_ids
+    global redirect_url, user_id
     print(userId)
     try:
         url = wait_for_redirect_url()
         set_redirect_url(None)
-        user_ids[url] = userId
-        print(user_ids)
+        user_id = userId
     except:
         print("NOT YET")
     return JsonResponse({'url':url})
