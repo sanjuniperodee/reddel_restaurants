@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+<script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
+<script>
+    console.log(document.getElementsByClassName('close'))
+    {#close = document.getElementsByClassName('close')[0].remove()#}
+    window.onload = this.pay = function () {
+ var widget = new cp.CloudPayments();
+    widget.pay('charge', // или 'charge'
+        { //options
+            publicId: 'pk_548225ca1b386b4b1cd8943348e4a', //id из личного кабинета
+            description: 'Оплата товаров в example.com', //назначение
+            amount: parseInt({{ amount }}), //сумма
+            currency: 'KZT', //валюта
+            accountId: 'user@example.com', //идентификатор плательщика (необязательно)
+            invoiceId: '1234567', //номер заказа  (необязательно)
+            email: 'user@example.com', //email плательщика (необязательно)
+            skin: "mini", //дизайн виджета (необязательно)
+            autoClose: 3, //время в секундах до авто-закрытия виджета (необязательный)
+            data: {
+                myProp: 'myProp value'
+            },
+            configuration: {
+                common: {
+                    successRedirectUrl: "https://www.tumi.kz/cart_items", // адреса для перенаправления
+                    failRedirectUrl: "https://www.tumi.kz/cart_items"        // при оплате по Tinkoff Pay
+                }
+            },
+            payer: {
+                firstName: 'Тест',
+                lastName: 'Тестов',
+                middleName: 'Тестович',
+                birth: '1955-02-24',
+                address: 'тестовый проезд дом тест',
+                street: 'Lenina',
+                city: 'MO',
+                country: 'RU',
+                phone: '123',
+                postcode: '345'
+            }
+        },
+        {
+            onSuccess: function (options) {
+                console.log("SUCCESSSSSSSS!!!!!!!!!!!!!!!!1")
+                const data = {
+                  paid: "1",
+                  amount: '{{ amount }}',
+                  key: "{{ key }}",
+                  transaction_id: "{{ transaction_id }}",
+                  shop_id: "{{ shop_id }}",
+                  signature : "signature"
+                };
+                const md5Hash = CryptoJS.MD5(`${data.shop_id};${data.amount};${data.transaction_id};${data.key};${data.paid};0e2d10d7bdf055e54d4a57b2507155ec`);
+                const signature = md5Hash.toString(CryptoJS.enc.Hex);
+                data.signature=signature
+                console.log(data)
+                const url = 'https://www.tumi.kz/payments/external/success?paid=1';
+                window.location.href = url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "&signature=" + data.signature + "&shop_id=" + data.shop_id
+                    console.log("SUCCESSSSSSSS!!!!!!!!!!!!!!!!1")
+                },
+            onFail: function (reason, options) {
+                console.log("FAILFAILFAILFAILFALIFALIF")
+            },
+            onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
+                //например вызов вашей аналитики
+            }
+        }
+    )
+};
+</script>
+</body>
+
+</html>

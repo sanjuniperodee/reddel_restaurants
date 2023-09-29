@@ -415,4 +415,18 @@ def handle_insales_tumi(request):
     return render(request, 'tumi.html', decoded_data)
 
 
+@cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
+def handle_insales_piquadro(request):
+    text = request.body.decode('utf-8')
+    print(text)
+    key_value_pairs = text.split('&')
+    decoded_data = {}
+    for pair in key_value_pairs:
+        key, value = pair.split('=')
+        decoded_value = urllib.parse.unquote(value)
+        decoded_data[key] = decoded_value
+    print(decoded_data)
+    return render(request, 'piquadro.html', decoded_data)
+
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
