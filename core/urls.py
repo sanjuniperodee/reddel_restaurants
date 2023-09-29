@@ -20,5 +20,6 @@ urlpatterns = [
     path('handle', handle, name='handle'),
     path('redirect_user/<userId>', redirect_user, name='redirect_user'),
     path('handle_cloudpayments', handle_cloudpayments, name='handle_cloudpayments'),
-    path('handle_insales', handle_insales, name='handle_insales')
+    path('handle_insales', handle_insales, name='handle_insales'),
+    path('handle_insales_tumi', handle_insales_tumi, name='handle_insales_tumi')
 ]
