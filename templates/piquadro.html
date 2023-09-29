@@ -64,7 +64,7 @@
                 const signature = md5Hash.toString(CryptoJS.enc.Hex);
                 data.signature=signature
                 console.log(data)
-                const url = 'https://www.tumi.kz/payments/external/success?paid=1';
+                const url = 'https://www.piquadro.kz/payments/external/5937639/success?paid=1';
                 window.location.href = url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "&signature=" + data.signature + "&shop_id=" + data.shop_id
                     console.log("SUCCESSSSSSSS!!!!!!!!!!!!!!!!1")
                 },
