@@ -412,7 +412,7 @@ def handle_insales_tumi(request):
         decoded_value = urllib.parse.unquote(value)
         decoded_data[key] = decoded_value
     print(decoded_data)
-    return render(request, 'payment.html', decoded_data)
+    return render(request, 'tumi.html', decoded_data)
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
