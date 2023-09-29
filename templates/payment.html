@@ -16,7 +16,7 @@
  var widget = new cp.CloudPayments();
     widget.pay('charge', // или 'charge'
         { //options
-            publicId: 'pk_c786b702701d63eecaace715da930', //id из личного кабинета
+            publicId: 'pk_65919211eb2f84eb332c03f974dc1', //id из личного кабинета
             description: 'Оплата товаров в example.com', //назначение
             amount: parseInt({{ amount }}), //сумма
             currency: 'KZT', //валюта
@@ -58,26 +58,12 @@
                   shop_id: "{{ shop_id }}",
                   signature : "signature"
                 };
-                const md5Hash = CryptoJS.MD5(`${data.shop_id};${data.amount};${data.transaction_id};${data.key};${data.paid};a9aada9a6aff1b8558672aeb2daa0390`);
+                const md5Hash = CryptoJS.MD5(`${data.shop_id};${data.amount};${data.transaction_id};${data.key};${data.paid};7a030b2da036f1d706b8451122e8c2f2`);
                 const signature = md5Hash.toString(CryptoJS.enc.Hex);
                 data.signature=signature
                 console.log(data)
                 const url = 'https://adl-i.kz/payments/external/5933393/success?paid=1';
-                {#console.log(url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "&signature=" + data.signature + "&shop_id=" + data.shop_id)#}
                 window.location.href = url + "&amount=" + data.amount + "&key=" + data.key + "&transaction_id=" + data.transaction_id + "&signature=" + data.signature + "&shop_id=" + data.shop_id
-                {#fetch('https://adl-i.kz/payments/external/5933393/success', {#}
-                {#      method: 'POST',#}
-                {#      body: JSON.stringify({#}
-                {#          data#}
-                {#      })#}
-                {#    })#}
-                {#    .then(response => response.json())#}
-                {#    .then(result => {#}
-                {#      console.log(result);#}
-                {#    })#}
-                {#    .catch(error => {#}
-                {#      console.error('Ошибка:', error);#}
-                {#    });#}
                     console.log("SUCCESSSSSSSS!!!!!!!!!!!!!!!!1")
                 },
             onFail: function (reason, options) {
