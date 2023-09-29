@@ -358,6 +358,7 @@ def handle(request):
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def redirect_user(request, userId):
     global redirect_url, user_ids
+    print(user_ids)
     url = wait_for_redirect_url()
     set_redirect_url(None)
     user_ids[url] = userId
