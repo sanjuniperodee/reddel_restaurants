@@ -358,14 +358,10 @@ def handle(request):
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def redirect_user(request, userId):
-    global redirect_url, user_id
-    print(userId)
-    try:
-        url = wait_for_redirect_url()
-        set_redirect_url(None)
-        user_id = userId
-    except:
-        print("NOT YET")
+    global user_id
+    url = wait_for_redirect_url()
+    set_redirect_url(None)
+    user_id = userId
     return JsonResponse({'url':url})
 
 
