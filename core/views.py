@@ -361,6 +361,8 @@ def redirect_user(request, userId):
     try:
         url = wait_for_redirect_url()
         set_redirect_url(None)
+        user_ids[url] = userId
+        print(user_ids)
     except:
         print("NOT YET")
     return JsonResponse({'url':url})
