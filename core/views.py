@@ -314,7 +314,7 @@ def save_job(request):
     return JsonResponse({'error': 'Invalid JSON data'}, status=200)
 
 redirect_url = None
-
+user_ids = {}
 def set_redirect_url(url):
     global redirect_url
     with condition:
@@ -352,10 +352,12 @@ def handle(request):
 
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
-def redirect_user(request):
+def redirect_user(request, userId):
     global redirect_url
     url = wait_for_redirect_url()
     set_redirect_url(None)
+    user_ids[url] = userId
+    print(user_ids[url])
     print(url)
     return JsonResponse({'url':url})
 
@@ -386,14 +388,8 @@ def handle_cloudpayments(request):
 def handle_insales(request):
     text = request.body.decode('utf-8')
     print(text)
-
-    # Split the text by "&" to get key-value pairs
     key_value_pairs = text.split('&')
-
-    # Initialize a dictionary to store the decoded key-value pairs
     decoded_data = {}
-
-    # Iterate through key-value pairs and decode them
     for pair in key_value_pairs:
         key, value = pair.split('=')
         decoded_value = urllib.parse.unquote(value)
