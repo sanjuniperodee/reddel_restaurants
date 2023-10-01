@@ -352,7 +352,14 @@ def handle(request):
             certificate.save()
         except:
             print('error')
-    set_redirect_url(data.get('redirect_url'))
+        set_redirect_url(data.get('redirect_url'))
+    else:
+        raw_data = request.body
+        json_string = raw_data.decode('utf-8')
+        data = json.loads(json_string)
+        set_redirect_url(data.get('alternative_reason'))
+        print(data.get('alternative_reason'))
+
     return JsonResponse({'message': 'OK'}, status=200)
 
 
