@@ -365,12 +365,13 @@ def handle(request):
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
 def redirect_user(request, userId):
-    global user_id
-    url = wait_for_redirect_url()
-    print(url)
+    global user_id, redirect_url
+    wait_for_redirect_url()
+    url = redirect_url
+    print("RETURNED ANSWER")
     set_redirect_url(None)
     user_id = userId
-    return JsonResponse({'url':url})
+    return JsonResponse({'url' : url})
 
 
 @cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_credentials=True)
