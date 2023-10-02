@@ -337,7 +337,13 @@ def handle(request):
     global user_id
     data = json.loads(request.body.decode('utf-8'))
     print(data)
-    if data.get('result'):
+    if data.get('result') == 'REJECTED':
+        raw_data = request.body
+        json_string = raw_data.decode('utf-8')
+        data = json.loads(json_string)
+        set_redirect_url(data.get('alternative_reason'))
+        print(data.get('alternative_reason'))
+    else:
         try:
             print()
             raw_data = request.body
@@ -353,12 +359,6 @@ def handle(request):
         except:
             print('error')
         set_redirect_url(data.get('redirect_url'))
-    else:
-        raw_data = request.body
-        json_string = raw_data.decode('utf-8')
-        data = json.loads(json_string)
-        set_redirect_url(data.get('alternative_reason'))
-        print(data.get('alternative_reason'))
 
     return JsonResponse({'message': 'OK'}, status=200)
 
