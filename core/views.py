@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
-from .models import Restaurant, Certificate, Otklik, Order, Favorites
+from .models import Restaurant, Certificate, Otklik, Order, Favorites, Tag
 import threading
 import requests
 import json
@@ -37,6 +37,10 @@ def cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_c
 @cors_headers(allow_origin="*", allow_methods="GET", allow_headers="*", allow_credentials=True)
 def get_restaurants(request):
     data = []
+    tags = Tag.objects.all()
+    all_tags = []
+    for i in tags:
+        all_tags.append(i.title)
     for i in Restaurant.objects.all():
         tags = []
         for tag in i.tags.all():
@@ -55,7 +59,7 @@ def get_restaurants(request):
         }
         data.append(item)
     return JsonResponse({
-        "restaurants": data})
+        "restaurants": data, "tags": all_tags})
 @cors_headers(allow_origin="*", allow_methods="GET", allow_headers="*", allow_credentials=True)
 def get_restaurant_by_slug(request, slug):
     try:

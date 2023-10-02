@@ -31,6 +31,12 @@ class Tag(models.Model):
         return self.title
 
 
+class ImageModel(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.ImageField()
+    def __str__(self):
+        return self.title
+
 class Restaurant(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(null=True)
@@ -39,8 +45,8 @@ class Restaurant(models.Model):
     average = models.CharField(max_length=255, null=True)
     food_type = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
-    menu = models.ImageField(null=True)
-    sale = models.ImageField(null=True)
+    menu = models.ManyToManyField(ImageModel, default=None, null=True)
+    sales = models.ImageField(null=True, default=None)
     prices = models.CharField(null=True, max_length=255)
     slug = models.SlugField(null=True)
     location = models.CharField(max_length=255, null=True)
