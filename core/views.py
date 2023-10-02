@@ -337,7 +337,7 @@ def handle(request):
     global user_id
     data = json.loads(request.body.decode('utf-8'))
     print(data)
-    if data.get('status'):
+    if data.get('result'):
         try:
             print()
             raw_data = request.body
