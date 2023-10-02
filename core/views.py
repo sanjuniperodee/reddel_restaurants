@@ -38,7 +38,7 @@ def cors_headers(allow_origin="*", allow_methods="*", allow_headers="*", allow_c
 def get_restaurants(request):
     data = []
     tags = Tag.objects.all()
-    all_tags = []
+    all_tags = ['Все']
     for i in tags:
         all_tags.append(i.title)
     for i in Restaurant.objects.all():
