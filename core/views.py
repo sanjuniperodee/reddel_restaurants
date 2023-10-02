@@ -367,6 +367,7 @@ def handle(request):
 def redirect_user(request, userId):
     global user_id
     url = wait_for_redirect_url()
+    print(url)
     set_redirect_url(None)
     user_id = userId
     return JsonResponse({'url':url})
