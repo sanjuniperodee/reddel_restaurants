@@ -38,6 +38,7 @@ class ImageModel(models.Model):
         return self.title
 
 class Restaurant(models.Model):
+    logo = models.ImageField(null=True)
     title = models.CharField(max_length=255)
     description = models.TextField(null=True)
     image = models.ImageField(null=True)

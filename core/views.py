@@ -46,6 +46,7 @@ def get_restaurants(request):
         for tag in i.tags.all():
             tags+=tag.title
         item = {
+            'logo': i.logo.url,
             'id': i.pk,
             'title': i.title,
             'description': i.description,
@@ -71,6 +72,7 @@ def get_restaurant_by_slug(request, slug):
                 'image': i.image.url
             })
         data = {
+            'logo': item.logo.url,
             'id': item.pk,
             'title': item.title,
             'description': item.description,
@@ -98,6 +100,7 @@ def get_new_restaurants(request):
         for tag in i.tags.all():
             tags+=tag.title
         item = {
+            'logo': i.logo.url,
             'id': i.pk,
             'title': i.title,
             'description': i.description,
@@ -130,6 +133,7 @@ def get_favourites(request, userId):
         for tag in i.tags.all():
             tags += tag.title
         item = {
+            'logo': i.logo.url,
             'id': i.pk,
             'title': i.title,
             'description': i.description,
