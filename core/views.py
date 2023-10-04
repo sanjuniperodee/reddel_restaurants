@@ -65,7 +65,7 @@ def get_restaurant_by_slug(request, slug):
     try:
         item = Restaurant.objects.get(slug=slug)
         menus = []
-        for i in  item.menus.all():
+        for i in item.menu.all():
             menus.append({
                 'title': i.title,
                 'image': i.image.url
