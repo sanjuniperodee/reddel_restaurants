@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
-from .models import Restaurant, Certificate, Otklik, Order, Favorites, Tag
+from .models import Restaurant, Certificate, Otklik, Order, Favorites, Tag, RestaurantImage
 import threading
 import requests
 import json
@@ -64,6 +64,12 @@ def get_restaurants(request):
 def get_restaurant_by_slug(request, slug):
     try:
         item = Restaurant.objects.get(slug=slug)
+        menus = []
+        for i in  item.menus.all():
+            menus.append({
+                'title': i.title,
+                'image': i.image.url
+            })
         data = {
             'id': item.pk,
             'title': item.title,
@@ -76,7 +82,8 @@ def get_restaurant_by_slug(request, slug):
             'kitchen': item.kitchen,
             'average': item.average,
             'phone': item.phone_number,
-            'prices': item.prices.split(',')
+            'prices': item.prices.split(','),
+            'menus': menus
         }
         return JsonResponse({'data': data})
     except Restaurant.DoesNotExist:
