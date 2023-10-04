@@ -71,6 +71,9 @@ def get_restaurant_by_slug(request, slug):
                 'title': i.title,
                 'image': i.image.url
             })
+        images = []
+        for image in RestaurantImage.objects.filter(post=i):
+            images.append(image.images.url)
         data = {
             'logo': item.logo.url,
             'id': item.pk,
@@ -85,7 +88,8 @@ def get_restaurant_by_slug(request, slug):
             'average': item.average,
             'phone': item.phone_number,
             'prices': item.prices.split(','),
-            'menus': menus
+            'menus': menus,
+            'images': images
         }
         return JsonResponse({'data': data})
     except Restaurant.DoesNotExist:
