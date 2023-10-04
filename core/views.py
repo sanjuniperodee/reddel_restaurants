@@ -72,7 +72,7 @@ def get_restaurant_by_slug(request, slug):
                 'image': i.image.url
             })
         images = []
-        for image in RestaurantImage.objects.filter(post=i):
+        for image in RestaurantImage.objects.filter(post=item):
             images.append(image.images.url)
         data = {
             'logo': item.logo.url,
