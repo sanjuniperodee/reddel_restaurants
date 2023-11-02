@@ -9,6 +9,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'}
 ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Replace with your frontend's domain
+    "https://reddel.kz.com",  # Replace with your production domain
+    "https://www.reddel.kz.com",
+]
+CORS_ALLOW_CREDENTIALS = True
+
 
 DATABASES = {
     'default': {

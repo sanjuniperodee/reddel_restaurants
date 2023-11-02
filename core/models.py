@@ -5,14 +5,17 @@ from django.db import models
 from django.http import request
 from django.shortcuts import reverse, get_object_or_404, redirect
 from django.utils import timezone
-from django_countries.fields import CountryField
+from django.contrib.auth.models import AbstractUser
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    stripe_customer_id = models.CharField(max_length=50, blank=True, null=True)
-    one_click_purchasing = models.BooleanField(default=False)
-    image = models.ImageField(default=None)
+class CustomUser(AbstractUser):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15, unique=True)
+
+    def __str__(self):
+        return self.username
 
 
 class Certificate(models.Model):
@@ -53,7 +56,8 @@ class Restaurant(models.Model):
     location = models.CharField(max_length=255, null=True)
     kitchen = models.CharField(max_length=255, null=True)
     novy = models.BooleanField(default=False)
-
+    insta = models.CharField(max_length=255, null=True)
+    whatsapp = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.title
