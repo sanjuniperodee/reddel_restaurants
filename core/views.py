@@ -1,18 +1,10 @@
 import json
 import subprocess
 import urllib
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
-from rest_framework_jwt.utils import jwt_response_payload_handler
-from django.contrib.auth import get_user_model
-from rest_framework_jwt.views import ObtainJSONWebToken
 from django.shortcuts import render, get_object_or_404
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
-from .models import Restaurant, Certificate, Otklik, Order, Favorites, Tag, RestaurantImage
 import threading
 import requests
 import json

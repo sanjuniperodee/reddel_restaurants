@@ -16,24 +16,24 @@
     {#close = document.getElementsByClassName('close')[0].remove()#}
     window.onload = this.pay = function () {
  var widget = new cp.CloudPayments();
-    widget.pay('charge', // или 'charge'
-        { //options
-            publicId: 'pk_548225ca1b386b4b1cd8943348e4a', //id из личного кабинета
-            description: 'Оплата товаров в piquadro.kz', //назначение
-            amount: parseInt({{ amount }}), //сумма
-            currency: 'KZT', //валюта
-            accountId: 'user@example.com', //идентификатор плательщика (необязательно)
-            invoiceId: '1234567', //номер заказа  (необязательно)
-            email: 'user@example.com', //email плательщика (необязательно)
-            skin: "mini", //дизайн виджета (необязательно)
-            autoClose: 3, //время в секундах до авто-закрытия виджета (необязательный)
+    widget.pay('charge',
+        {
+            publicId: 'pk_548225ca1b386b4b1cd8943348e4a',
+            description: 'Оплата товаров в piquadro.kz',
+            amount: parseInt({{ amount }}),
+            currency: 'KZT',
+            accountId: 'user@example.com',
+            invoiceId: '1234567',
+            email: 'user@example.com',
+            skin: "mini",
+            autoClose: 3,
             data: {
                 myProp: 'myProp value'
             },
             configuration: {
                 common: {
-                    successRedirectUrl: "https://www.piquadro.kz//cart_items", // адреса для перенаправления
-                    failRedirectUrl: "https://www.piquadro.kz//cart_items"        // при оплате по Tinkoff Pay
+                    successRedirectUrl: "https://www.piquadro.kz//cart_items",
+                    failRedirectUrl: "https://www.piquadro.kz//cart_items"
                 }
             },
             payer: {

@@ -5,25 +5,9 @@ from .views import *
 app_name = 'core'
 
 urlpatterns = [
-    path('getAllRestaurants', get_restaurants, name='get_restaurants'),
-    path('get_restaurant_by_slug/<slug>', get_restaurant_by_slug, name='get_restaurant_by_slug'),
-    path('create_certificate', create_certificate, name='create_certificate'),
-    path('get_certificates_by_id/<id>', get_certificates_by_id, name='get_certificates_by_id'),
-    path('otklik/<id>', otklik, name='otklik'),
-    path('get_jobs', get_jobs, name='get_jobs'),
-    path('get_jobs_by_id/<id>', get_jobs_by_id, name='get_jobs_by_id'),
-    path('get_job_by_id/<id>', get_job_by_id, name='get_job_by_id'),
-    path('add_otklick/<jobId>/<userId>/<description>/<price>', add_otklick, name='add_otklick'),
-    path('save_job', save_job, name='save_job'),
-    path('add_to_favorite/<userId>/<restaurantId>', add_to_favorite, name='add_to_favorite'),
-    path('get_favourites/<userId>', get_favourites, name='get_favourites'),
-    path('handle', handle, name='handle'),
-    path('redirect_user/<userId>', redirect_user, name='redirect_user'),
     path('handle_cloudpayments', handle_cloudpayments, name='handle_cloudpayments'),
     path('handle_insales', handle_insales, name='handle_insales'),
     path('handle_insales_tumi', handle_insales_tumi, name='handle_insales_tumi'),
     path('handle_insales_piquadro', handle_insales_piquadro, name='handle_insales_piquadro'),
-    path('logup', logup, name='logup'),
-    path('login', login, name='login')
 
 ]
